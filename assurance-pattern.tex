@@ -42,24 +42,36 @@ BriefCASE includes a library of automated model transformations corresponding to
 % NOT SURE HOW MUCH SPACE WE WILL HAVE HERE.
 % USE FILTER AS EXAMPLE
 % OTHERWISE, JUST REFERENCE DESTION PAPER 
-Because the transformations modify the architecture model in different ways, assuring that a specific requirement is satisfied in the model will be argued according to a transformation-specific pattern.  For example, a message well-formedness requirement on a component's input port can be addressed by inserting a filter on the communication channel upstream of the target component.  The corresponding assurance pattern for this mitigation is shown in Figure~\ref{fig:filter}.
+Because the transformations modify the architecture model in different ways, assuring that a specific requirement is satisfied in the model will be argued according to a transformation-specific pattern.  For example, a well-formed message requirement on a component's input port can be addressed by inserting a filter on the communication channel upstream of the target component.  The corresponding assurance pattern for this mitigation is shown in Figure~\ref{fig:filter}.  Here, we argue that the well-formed message requirement has been satisfied in the model by showing that formal verification passed on the current version of the model, that a filter is appropriately inserted upstream of the target component, and that the filter cannot be bypassed.  Assurance patterns corresponding to all the BriefCASE model transformations have been defined and are packaged with the tool.  Due to space limitations we do not include them here, but instead refer the reader to the BriefCASE project site.
 
 \begin{figure}[h] 
 	\centering 
 	\includegraphics[width=\textwidth]{figs/filter.png}
-	\caption{Assurance pattern for a filter mitigation.}
+	\caption{Pattern for assuring proper filter mitigation in the architecture model.}
 	\label{fig:filter} 
 \end{figure}
 
 % Implementation assurance
-\subsection{Cyber Requirements are Satisfied in the Realization of the Model}
+\subsection{Cyber Requirements are Satisfied in the Realization of the System Model}
 % Where BriefCASE implementations can come from (legacy/manual implementation, SPLAT synthesis, pre-packaged - Attestation, seL4, HAMR)
 
-In the CASE workflow, a software component implementation could have various origins.  It could be legacy, third-party, or manually implemented code. It could also be generated from an external behavioral model such as Simulink or be synthesized directly from the component's contract.  In BriefCASE, the latter is performed by the SPLAT tool~\cite{case-verified-filter}, which synthesizes the implementation of high-assurance components in the CakeML language~\cite{cakeml} directly from a formal assume-guarantee contract specified in the AADL component's AGREE annex~\cite{compositional-analysis-agree}.  In addition to providing a formally verified compiler, CakeML enables SPLAT to generate a proof of correctness that the synthesized implementation is correct with respect to the contract.
+In the CASE workflow, a software component implementation could have various origins.  It could be legacy, third-party, or manually implemented code. It could also be generated from a behavioral model such as Simulink or be synthesized directly from the component's contract.  In BriefCASE, the latter is performed by the SPLAT tool~\cite{case-verified-filter}, which synthesizes the implementation of high-assurance components in the CakeML language~\cite{cakeml} directly from a formal assume-guarantee contract specified in the AADL component's AGREE annex~\cite{compositional-analysis-agree}.  In addition to providing a formally verified compiler, CakeML enables SPLAT to generate a proof that the synthesized implementation is correct with respect to the formal contract.
 
-In addition to the software component application code, infrastructure code and the operating system itself must be implemented and integrated into a deployable system.  The HAMR~\cite{hamr} system build tool included with BriefCASE generates the infrastructure code, along with correspondence proofs that the intra-component connections specified in the model are maintained in the implementation, and that no new connections have been created.  This is made possible in part by building to an seL4~\cite{sel4-cacm18} target.  seL4 is a formally verified microkernel that provides time and space partitioning guarantees.  
+Application infrastructure code and the operating system itself must also be implemented and integrated into a deployable system.  BriefCASE employs the HAMR build tool~\cite{hamr}, which generates the infrastructure code, along with correspondence proofs that the inter-component connections specified in the model are maintained in the implementation and that no new connections have been created.  For high-assurance systems, this is made possible in part by building to a target platform running seL4~\cite{sel4-cacm18}, a formally verified microkernel that provides time and space partitioning guarantees.
 
-The structure of the implementation branch of the assurance pattern therefore examines the provenance of the software and assures it ...
+% Add a paragraph (and maybe a figure?) on the HAMR API for component code to tie into following sentence
+TODO - BRIEF DESCRIPTION OF HAMR API
+
+\begin{figure}[h] 
+	\centering 
+	\includegraphics[width=\textwidth]{figs/deployment-interface.png}
+	\caption{(a) Example AADL component interface features and disclosed component state. (b) Schematic of deployed component, with notion of observation points.}
+	\label{fig:deployment-interface} 
+\end{figure}
+
+The structure of the \textit{model realization} branch of the assurance pattern (partially shown in Figure~\ref{fig:req-satisfied-in-model-realization}) therefore necessarily focuses on evidence of correctness in terms of behaviors observed at deployment observation points associated with the BriefCASE workflow.  
+%Patterns for assuring deployed code with provenance external to BriefCASE are not presented here, but would be included in a straight-forward manner.
+
 
 \begin{figure}[h] 
 	\centering 
@@ -68,6 +80,16 @@ The structure of the implementation branch of the assurance pattern therefore ex
 	\label{fig:req-satisfied-in-model-realization} 
 \end{figure}
 
+To support the claim that the deployed software components satisfy their requirements,
+%in Figure~\ref{fig:req-satisfied-in-model-realization}
+for each component, we require evidence that the cyber requirements are stated in terms of a component's AADL interface and publicly disclosed state, and that the component application code conforms to both its declared interface and requirements.  Although demonstrating that requirements are stated in terms of a component's interface is not strictly necessary in the general case, it is included in this pattern for confidence that the CASE workflow was followed correctly. 
+
+
+Furthermore, the component's application code must conform to its declared interface and requirements.  This goal is substantiated by the argument in Figure~\ref{fig:code-conforms-to-interface-and-requirements}.
+%
+% The component's AADL runtime infrastructure code satisfies AADL port and threading semantics
+%
+Finally, the component's platform deployment context achieves its required assurance properties.  This is supported by the argument in Figure~\ref{fig:platform-deployment-context-achieves-assurance-properties}.
 
 
 \begin{figure}[h]
@@ -84,3 +106,7 @@ The structure of the implementation branch of the assurance pattern therefore ex
 	\caption{Assurance pattern for arguing platform deployment context achieves the required assurance properties.}
 	\label{fig:platform-deployment-context-achieves-assurance-properties} 
 \end{figure}
+
+
+
+In addition to demonstrating that \textit{deployed} software components satisfy their requirements, we must also argue that the platform components guarantee their required properties and the system implementation preserves them.
