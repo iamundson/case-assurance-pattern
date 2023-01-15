@@ -1,6 +1,6 @@
 % Overview of assurance argument structure
 The high-level structure of our CASE assurance pattern is inspired by the D-MILS argument pattern~\cite{dmils}, in which system dependability properties are assured via modules arguing component, compositional, and implementation correctness.  
-Although verifying functional, safety, and other dependability properties is necessary for a comprehensive system assurance case, the CASE pattern presented here only addresses cyber-resiliency.  The intention is for the resulting assurance argument to be integrated into a full system assurance case, if necessary.
+Although verifying functional, safety, and other dependability properties is necessary for a comprehensive system assurance case, the CASE pattern presented here only addresses cyber-resiliency.  The intention is for the resulting assurance argument to be integrated into a full system assurance case, when necessary.
 
 The high-level CASE argument structure is depicted in Figure~\ref{fig:top-level}, with the top-level goal being ``The system is acceptably cyber-resilient".  
 This goal is then substantiated by arguments that cyber-resiliency requirements have been appropriately identified and then satisfied, both in the system model and the \textit{realization} of the system model as a built, deployable system.
@@ -26,7 +26,7 @@ Because BriefCASE manages the development artifacts associated with the CASE wor
 
 The assurance argument for cybersecurity requirement correctness and completeness is shown in Figure~\ref{fig:req-correct-complete}.  
 %
-In the figure, it can be seen that in order to support the requirement correctness and completeness claim, we must provide evidence that the full set of cyber requirements passed through a review process, were imported into the BriefCASE environment as Resolute goals or omitted with rationale, and that successive analyses on updated versions of the model finds no new vulnerabilities.  The latter reflects the iterative step in the workflow (depicted by the left-pointing arrow in Figure~\ref{fig:workflow}), in which a modified model must be re-analyzed after applying a mitigation for a previously generated requirement.  This is necessary in order to demonstrate that the mitigation of one vulnerability does not inadvertently introduce other vulnerabilities.  To argue that the current model was analyzed appropriately, we must be able to demonstrate that the model is well-formed; that is, it complies with modeling guidelines, that the analysis was indeed performed on the current version of the model, and that the analysis does not produce any new applicable requirements.
+In the figure, it can be seen that in order to support the claim, we must provide evidence that the full set of cyber requirements passed through a review process, were imported into the BriefCASE environment as Resolute goals or omitted with rationale, and that successive analyses on updated versions of the model finds no new vulnerabilities.  The latter reflects the iterative step in the workflow (depicted by the left-pointing arrow in Figure~\ref{fig:workflow}), in which a modified model must be re-analyzed after applying a mitigation for a previously generated requirement.  This is necessary in order to demonstrate that the mitigation of one vulnerability does not inadvertently introduce other vulnerabilities.  To argue that the current model was analyzed appropriately, we must be able to demonstrate that the model is well-formed; that is, it complies with modeling guidelines, that the analysis was indeed performed on the current version of the model, and that the analysis does not produce any new applicable requirements.
 
 \begin{figure}[h] 
 	\centering 
@@ -42,7 +42,7 @@ BriefCASE includes a library of automated model transformations corresponding to
 % NOT SURE HOW MUCH SPACE WE WILL HAVE HERE.
 % USE FILTER AS EXAMPLE
 % OTHERWISE, JUST REFERENCE DESTION PAPER 
-Because the transformations modify the architecture model in different ways, assuring that a specific requirement is satisfied in the model will be argued according to a transformation-specific pattern.  For example, a well-formed message requirement on a component's input port can be addressed by inserting a filter on the communication channel upstream of the target component.  The corresponding assurance pattern for this mitigation is shown in Figure~\ref{fig:filter}.  Here, we argue that the well-formed message requirement has been satisfied in the model by showing that formal verification passed on the current version of the model, that a filter is appropriately inserted upstream of the target component, and that the filter cannot be bypassed.  Assurance patterns corresponding to all the BriefCASE model transformations have been defined and are packaged with the tool.  Due to space limitations we do not include them here, but instead refer the reader to the BriefCASE project site.
+Because the transformations modify the architecture model in different ways, assuring that a specific requirement is satisfied in the model will be argued according to a transformation-specific pattern.  For example, a well-formed message requirement on a component's input port can be addressed by inserting a filter on the communication channel upstream of the target component.  The corresponding assurance pattern for this mitigation is shown in Figure~\ref{fig:filter}.  Here, we argue that the well-formed message requirement has been satisfied in the model by showing that formal verification passed on the current version of the model, that a filter is appropriately inserted upstream of the target component, and that the filter cannot be bypassed.  Assurance patterns corresponding to all the BriefCASE model transformations have been defined and are packaged with the tool.  Due to space limitations we do not include them here, but instead refer the reader to the BriefCASE User's Guide~\cite{BriefCASE-user-guide}.
 
 \begin{figure}[h] 
 	\centering 
@@ -60,7 +60,7 @@ In the CASE workflow, a software component implementation could have various ori
 Application infrastructure code and the operating system itself must also be implemented and integrated into a deployable system.  BriefCASE employs the HAMR build tool~\cite{hamr}, which generates the infrastructure code, along with correspondence proofs that the inter-component connections specified in the model are maintained in the implementation and that no new connections have been created.  For high-assurance systems, this is made possible in part by building to a target platform running seL4~\cite{sel4-cacm18}, a formally verified microkernel that provides time and space partitioning guarantees.
 
 % Add a paragraph (and maybe a figure?) on the HAMR API for component code to tie into following sentence
-TODO - BRIEF DESCRIPTION OF HAMR API
+\todo{Brief description of HAMR API?}
 
 \begin{figure}[h] 
 	\centering 
