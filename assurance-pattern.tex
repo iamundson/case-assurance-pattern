@@ -77,7 +77,6 @@ To support the claim that the deployed software component satisfies the cyber re
 	\caption{Assurance pattern for arguing a requirement is satisfied in the realization of the model.}
 	\label{fig:req-satisfied-in-model-realization} 
 \end{figure}
-\vspace{-3mm}
 
 Goal \texttt{interfaceConformance} is substantiated by the argument in Fig.~\ref{fig:code-conforms-to-interface-and-requirements}.  Here it is critical that we show the application code interfaces correctly with the infrastructure code.  This includes evidence that application code only communicates through correct port APIs, runs to completion and produces an output (or drops the input where appropriate) upon being dispatched, and satisfies information flow and worse-case execution time specifications.  Evidence supporting most of these goals will typically be in the form of manual inspection and review; however, some evidence such as analysis and verification results can be automatically evaluated by the framework.
 
@@ -87,7 +86,6 @@ Goal \texttt{interfaceConformance} is substantiated by the argument in Fig.~\ref
 	\caption{Assurance pattern for arguing component code conforms to the specified interface and requirements.}
 	\label{fig:code-conforms-to-interface-and-requirements} 
 \end{figure}
-\vspace{-3mm}
 
 For goal \texttt{aadlSemantics} (expanded argument not pictured), to demonstrate that the component's AADL runtime infrastructure code satisfies AADL port and threading semantics, we must show that for each component port declared in the AADL model, HAMR correctly generates (a) an API for application code (aligned with the AADL standard) to use when interacting with that port,
 %that is aligned with the AADL standard's description of port semantics, 
@@ -101,6 +99,5 @@ Finally, it must be shown that the component's platform deployment context achie
 	\caption{Assurance pattern for arguing platform deployment context achieves the required assurance properties.}
 	\label{fig:platform-deployment-context-achieves-assurance-properties} 
 \end{figure}
-\vspace{-3mm}
 
 In addition to demonstrating that deployed software components satisfy their cyber requirements, we must also argue that the deployed system implementation preserves them.  We do not further expand the \texttt{System Implementation} argument module here since the evaluation criteria are typical of established methods in practice today.
