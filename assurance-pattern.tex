@@ -1,31 +1,36 @@
 % Overview of assurance argument structure
-Although verifying functional, safety, and other dependability properties is necessary for a comprehensive system assurance case, the CASE patterns presented in this section only addresses cyber-resiliency.  The intention is for the resulting instantiated assurance argument to be integrated into a full system dependability assurance case, when necessary.  We present our assurance patterns as GSN Patterns~\cite{Kelly97:patterns} (with slight abuse of notation for brevity).
+Although verifying functional, safety, and other dependability properties is necessary for a comprehensive system assurance case, the CASE patterns presented in this section only addresses cyber-resiliency.  The intention is for the resulting instantiated assurance argument to be integrated into a full system dependability assurance case, when necessary.  We present our assurance patterns as GSN Patterns~\cite{Kelly97:patterns},~\cite{GSNv3} (with slight abuse of notation for brevity).
+
+%\todo{Attempt to explain abuse?  Redo patterns without abuse? Remove abuse comment altogether?}
 
 The high-level CASE argument structure is depicted in Fig.~\ref{fig:top-level},
 with the top-level goal being ``The system is acceptably cyber-resilient".  
-This goal is then substantiated by arguments that cyber-resiliency requirements have been appropriately identified and then satisfied, both in the system model and the \textit{realization} of the system model as a built, deployable system.
+Two contextual elements are required here: the system under development and the concrete domain-specific guidance that defines ``acceptable cyber-resilience" for the current development effort. This goal is then substantiated by arguments that cyber-resiliency requirements have been appropriately identified and then satisfied, both in the system model and the \textit{realization} of the system model as a built, deployable system.
 
-\begin{figure}[h] 
+\begin{figure*}[h] 
 	\centering 
 	\includegraphics[width=\textwidth]{figs/top-level.png}
 	\caption{Top-level assurance pattern structure.}
 	\label{fig:top-level} 
-\end{figure}
-\vspace{-3mm}
+\end{figure*}
+%\vspace{-3mm}
 
 % Security requirements are correct and complete
 \subsection{Cyber Requirement Correctness and Completeness}
 
+
 The assurance argument for cybersecurity requirement correctness and completeness is shown in Fig.~\ref{fig:req-correct-complete}.  
 In the figure, it can be seen that in order to support the claim, we must provide evidence that the full set of cyber requirements passed through a review process, were imported into the BriefCASE environment as Resolute goals or omitted with rationale, and that successive analyses on updated versions of the model finds no new vulnerabilities.  The latter reflects the iterative step in the workflow (depicted by the left-pointing arrow in Fig.~\ref{fig:workflow}), in which a modified model must be re-analyzed after applying a mitigation for a previously generated requirement.  This is necessary in order to demonstrate that the mitigation of one vulnerability does not inadvertently introduce other vulnerabilities.  To argue that the current model was analyzed appropriately, we must be able to demonstrate first that the model is well-formed (i.e., it complies with modeling guidelines), that the analysis was indeed performed on the current version of the model, and that the analysis does not produce any new applicable requirements.
 
-\begin{figure}[h] 
+
+
+\begin{figure*}[h] 
 	\centering 
 	\includegraphics[width=\textwidth]{figs/req-correct-complete.png}
 	\caption{Assurance pattern for security requirement correctness and completeness.}
 	\label{fig:req-correct-complete} 
-\end{figure}
-\vspace{-3mm}
+\end{figure*}
+%\vspace{-3mm}
 
 % Model assurance
 \subsection{Cyber Requirements are Satisfied in the System Model}
@@ -43,16 +48,16 @@ For formal verification, we first desire evidence that the requirement is stated
 %that cover the concepts reflected in the requirements) 
 and the requirement is correctly specified in the formal specification language (e.g., requirement review).
 
-Assurance patterns corresponding to all the BriefCASE model transformations have been defined and are packaged with the framework.  Due to space limitations we do not include them all here, and instead refer the reader to the BriefCASE User's Guide, accessible from our BriefCASE project page~\cite{BriefCASE-project}.
+Assurance patterns corresponding to all the BriefCASE model transformations have been defined and are packaged with the framework.  Due to space limitations we do not include them all here, and instead refer the reader to the BriefCASE User's Guide, accessible from our BriefCASE project page\footnote{https://loonwerks.com/projects/case.html}.%~\cite{BriefCASE-project}.
 
 
-\begin{figure}[h] 
+\begin{figure*}[h] 
 	\centering 
 	\includegraphics[width=\textwidth]{figs/filter.png}
-	\caption{Assurance pattern for assuring proper filter insertion in the architecture model.}
+	\caption{Assurance pattern for proper filter insertion in the architecture model.}
 	\label{fig:filter} 
-\end{figure}
-\vspace{-3mm}
+\end{figure*}
+%\vspace{-3mm}
 
 % Implementation assurance
 \subsection{Cyber Requirements are Satisfied in the Realization of the System Model}
@@ -71,21 +76,21 @@ The structure of the \texttt{Implementation Correctness} module of the assurance
 %
 To support the claim that the deployed software component satisfies the cyber requirement, we must demonstrate that the component application code conforms to both its declared interface and requirements (goal \texttt{interfaceConformance}), that the component's AADL runtime infrastructure code satisfies AADL port and threading semantics (goal \texttt{aadlSemantics}), and that the component's platform deployment context achieves its required assurance properties (goal \texttt{platformDeployment}).
 
-\begin{figure}[h] 
+\begin{figure*}[h] 
 	\centering 
 	\includegraphics[width=\textwidth]{figs/req-satisfied-in-model-realization.png}
 	\caption{Assurance pattern for arguing a requirement is satisfied in the realization of the model.}
 	\label{fig:req-satisfied-in-model-realization} 
-\end{figure}
+\end{figure*}
 
 Goal \texttt{interfaceConformance} is substantiated by the argument in Fig.~\ref{fig:code-conforms-to-interface-and-requirements}.  Here it is critical that we show the application code interfaces correctly with the infrastructure code.  This includes evidence that application code only communicates through correct port APIs, runs to completion and produces an output (or drops the input where appropriate) upon being dispatched, and satisfies information flow and worse-case execution time specifications.  Evidence supporting most of these goals will typically be in the form of manual inspection and review; however, some evidence such as analysis and verification results can be automatically evaluated by the framework.
 
-\begin{figure}[h]
+\begin{figure*}[h]
 	\centering 
 	\includegraphics[width=\textwidth]{figs/code-conforms-to-interface-and-requirements.png}
 	\caption{Assurance pattern for arguing component code conforms to the specified interface and requirements.}
 	\label{fig:code-conforms-to-interface-and-requirements} 
-\end{figure}
+\end{figure*}
 
 For goal \texttt{aadlSemantics} (expanded argument not pictured), to demonstrate that the component's AADL runtime infrastructure code satisfies AADL port and threading semantics, we must show that for each component port declared in the AADL model, HAMR correctly generates (a) an API for application code (aligned with the AADL standard) to use when interacting with that port,
 %that is aligned with the AADL standard's description of port semantics, 
@@ -93,11 +98,11 @@ and (b) an implementation of the port API (aligned with the AADL standard's desc
 
 Finally, it must be shown that the component's platform deployment context achieves its required assurance properties (goal \texttt{platformDeployment}).  This is supported by the argument in Fig.~\ref{fig:platform-deployment-context-achieves-assurance-properties}, in which we must assure the realization of component interfaces and data encodings on the seL4 platform.  This includes appropriate separation of the deployment interface into application and infrastructure interfaces and the correct composition of the application and AADL runtime onto the platform.  Some supporting evidence such as HAMR and seL4 proof artifacts can be evaluated automatically by the framework, but otherwise manual artifact inspection is required.
 
-\begin{figure}[h] 
+\begin{figure*}[h] 
 	\centering 
 	\includegraphics[width=\textwidth]{figs/platform-deployment-context-achieves-assurance-properties.png}
 	\caption{Assurance pattern for arguing platform deployment context achieves the required assurance properties.}
 	\label{fig:platform-deployment-context-achieves-assurance-properties} 
-\end{figure}
+\end{figure*}
 
 In addition to demonstrating that deployed software components satisfy their cyber requirements, we must also argue that the deployed system implementation preserves them.  We do not further expand the \texttt{System Implementation} argument module here since the evaluation criteria are typical of established methods in practice today.
